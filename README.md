@@ -79,3 +79,7 @@ Use spotless for code format.
 # Help
 
 Please fork and PR to improve the project.
+
+## Development Notes
+
+This repository has been verified for access and development workflow.
