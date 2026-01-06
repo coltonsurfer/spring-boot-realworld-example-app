@@ -1,0 +1,121 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      routes:
+        # User registration and login (public endpoints)
+        - id: users-public
+          uri: http://localhost:8080
+          predicates:
+            - Path=/users, /users/login
+            - Method=POST
+          filters:
+            - PreserveHostHeader
+
+        # Current user operations (authenticated)
+        - id: current-user
+          uri: http://localhost:8080
+          predicates:
+            - Path=/user
+          filters:
+            - PreserveHostHeader
+
+        # Articles feed (authenticated)
+        - id: articles-feed
+          uri: http://localhost:8080
+          predicates:
+            - Path=/articles/feed
+            - Method=GET
+          filters:
+            - PreserveHostHeader
+
+        # Article favorites
+        - id: article-favorites
+          uri: http://localhost:8080
+          predicates:
+            - Path=/articles/{slug}/favorite
+          filters:
+            - PreserveHostHeader
+
+        # Article comments
+        - id: article-comments
+          uri: http://localhost:8080
+          predicates:
+            - Path=/articles/{slug}/comments, /articles/{slug}/comments/{id}
+          filters:
+            - PreserveHostHeader
+
+        # Single article operations
+        - id: article-single
+          uri: http://localhost:8080
+          predicates:
+            - Path=/articles/{slug}
+          filters:
+            - PreserveHostHeader
+
+        # Articles list and create
+        - id: articles
+          uri: http://localhost:8080
+          predicates:
+            - Path=/articles
+          filters:
+            - PreserveHostHeader
+
+        # User profiles and follow/unfollow
+        - id: profiles
+          uri: http://localhost:8080
+          predicates:
+            - Path=/profiles/{username}, /profiles/{username}/follow
+          filters:
+            - PreserveHostHeader
+
+        # Tags
+        - id: tags
+          uri: http://localhost:8080
+          predicates:
+            - Path=/tags
+          filters:
+            - PreserveHostHeader
+
+        # GraphQL endpoints
+        - id: graphql
+          uri: http://localhost:8080
+          predicates:
+            - Path=/graphql
+          filters:
+            - PreserveHostHeader
+
+        - id: graphiql
+          uri: http://localhost:8080
+          predicates:
+            - Path=/graphiql
+          filters:
+            - PreserveHostHeader
+
+        # Catch-all fallback route (forwards everything else to monolith)
+        - id: fallback
+          uri: http://localhost:8080
+          predicates:
+            - Path=/**
+          filters:
+            - PreserveHostHeader
+
+# Actuator endpoints for health checks
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, gateway
+  endpoint:
+    gateway:
+      enabled: true
+
+# Logging configuration
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    reactor.netty: INFO
