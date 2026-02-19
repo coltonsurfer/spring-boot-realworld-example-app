@@ -1,8 +1,8 @@
 package io.spring.application.article;
 
 import com.fasterxml.jackson.annotation.JsonRootName;
-import java.util.List;
 import jakarta.validation.constraints.NotBlank;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
