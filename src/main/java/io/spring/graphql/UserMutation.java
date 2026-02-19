@@ -18,7 +18,7 @@ import io.spring.graphql.types.UpdateUserInput;
 import io.spring.graphql.types.UserPayload;
 import io.spring.graphql.types.UserResult;
 import java.util.Optional;
-import javax.validation.ConstraintViolationException;
+import jakarta.validation.ConstraintViolationException;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
